@@ -1,0 +1,17 @@
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/library/!svn/ver/1/lib/Cake/Test/Case/Model/Datasource/Session
+END
+CacheSessionTest.php
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/library/!svn/ver/1/lib/Cake/Test/Case/Model/Datasource/Session/CacheSessionTest.php
+END
+DatabaseSessionTest.php
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/library/!svn/ver/1/lib/Cake/Test/Case/Model/Datasource/Session/DatabaseSessionTest.php
+END

@@ -1,0 +1,2 @@
+document.getElementById('ItemCode').focus();
+

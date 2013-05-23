@@ -1,0 +1,83 @@
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/library/!svn/ver/9/app/tools/MarketplaceWebServiceProducts/Mock
+END
+GetMyPriceForSKUResponse.xml
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/library/!svn/ver/9/app/tools/MarketplaceWebServiceProducts/Mock/GetMyPriceForSKUResponse.xml
+END
+GetServiceStatusResponse.xml
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/library/!svn/ver/9/app/tools/MarketplaceWebServiceProducts/Mock/GetServiceStatusResponse.xml
+END
+GetCompetitivePricingForASINResponse.xml
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/library/!svn/ver/9/app/tools/MarketplaceWebServiceProducts/Mock/GetCompetitivePricingForASINResponse.xml
+END
+GetLowestOfferListingsForSKUResponse.xml
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/library/!svn/ver/9/app/tools/MarketplaceWebServiceProducts/Mock/GetLowestOfferListingsForSKUResponse.xml
+END
+GetProductCategoriesForASINResponse.xml
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/library/!svn/ver/9/app/tools/MarketplaceWebServiceProducts/Mock/GetProductCategoriesForASINResponse.xml
+END
+ErrorResponse.xml
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/library/!svn/ver/9/app/tools/MarketplaceWebServiceProducts/Mock/ErrorResponse.xml
+END
+GetMyPriceForASINResponse.xml
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/library/!svn/ver/9/app/tools/MarketplaceWebServiceProducts/Mock/GetMyPriceForASINResponse.xml
+END
+ListMatchingProductsResponse.xml
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/library/!svn/ver/9/app/tools/MarketplaceWebServiceProducts/Mock/ListMatchingProductsResponse.xml
+END
+GetMatchingProductResponse.xml
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/library/!svn/ver/9/app/tools/MarketplaceWebServiceProducts/Mock/GetMatchingProductResponse.xml
+END
+GetCompetitivePricingForSKUResponse.xml
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/library/!svn/ver/9/app/tools/MarketplaceWebServiceProducts/Mock/GetCompetitivePricingForSKUResponse.xml
+END
+GetLowestOfferListingsForASINResponse.xml
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/library/!svn/ver/9/app/tools/MarketplaceWebServiceProducts/Mock/GetLowestOfferListingsForASINResponse.xml
+END
+GetMatchingProductForIdResponse.xml
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/library/!svn/ver/9/app/tools/MarketplaceWebServiceProducts/Mock/GetMatchingProductForIdResponse.xml
+END
+GetProductCategoriesForSKUResponse.xml
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/library/!svn/ver/9/app/tools/MarketplaceWebServiceProducts/Mock/GetProductCategoriesForSKUResponse.xml
+END

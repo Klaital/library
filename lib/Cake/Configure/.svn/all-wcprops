@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 38
+/library/!svn/ver/1/lib/Cake/Configure
+END
+ConfigReaderInterface.php
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/library/!svn/ver/1/lib/Cake/Configure/ConfigReaderInterface.php
+END
+PhpReader.php
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/library/!svn/ver/1/lib/Cake/Configure/PhpReader.php
+END
+IniReader.php
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/library/!svn/ver/1/lib/Cake/Configure/IniReader.php
+END

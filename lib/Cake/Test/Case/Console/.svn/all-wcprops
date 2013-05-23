@@ -1,0 +1,71 @@
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/library/!svn/ver/1/lib/Cake/Test/Case/Console
+END
+ConsoleErrorHandlerTest.php
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/library/!svn/ver/1/lib/Cake/Test/Case/Console/ConsoleErrorHandlerTest.php
+END
+AllConsoleTest.php
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/library/!svn/ver/1/lib/Cake/Test/Case/Console/AllConsoleTest.php
+END
+HelpFormatterTest.php
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/library/!svn/ver/1/lib/Cake/Test/Case/Console/HelpFormatterTest.php
+END
+AllTasksTest.php
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/library/!svn/ver/1/lib/Cake/Test/Case/Console/AllTasksTest.php
+END
+ShellDispatcherTest.php
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/library/!svn/ver/1/lib/Cake/Test/Case/Console/ShellDispatcherTest.php
+END
+TaskCollectionTest.php
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/library/!svn/ver/1/lib/Cake/Test/Case/Console/TaskCollectionTest.php
+END
+AllShellsTest.php
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/library/!svn/ver/1/lib/Cake/Test/Case/Console/AllShellsTest.php
+END
+ConsoleOutputTest.php
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/library/!svn/ver/1/lib/Cake/Test/Case/Console/ConsoleOutputTest.php
+END
+AllConsoleLibsTest.php
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/library/!svn/ver/1/lib/Cake/Test/Case/Console/AllConsoleLibsTest.php
+END
+ShellTest.php
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/library/!svn/ver/1/lib/Cake/Test/Case/Console/ShellTest.php
+END
+ConsoleOptionParserTest.php
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/library/!svn/ver/1/lib/Cake/Test/Case/Console/ConsoleOptionParserTest.php
+END

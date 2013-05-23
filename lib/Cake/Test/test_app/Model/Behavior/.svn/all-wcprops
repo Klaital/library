@@ -1,0 +1,17 @@
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/library/!svn/ver/1/lib/Cake/Test/test_app/Model/Behavior
+END
+PersisterTwoBehaviorBehavior.php
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/library/!svn/ver/1/lib/Cake/Test/test_app/Model/Behavior/PersisterTwoBehaviorBehavior.php
+END
+PersisterOneBehaviorBehavior.php
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/library/!svn/ver/1/lib/Cake/Test/test_app/Model/Behavior/PersisterOneBehaviorBehavior.php
+END

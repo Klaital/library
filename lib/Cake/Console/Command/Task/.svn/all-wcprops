@@ -1,0 +1,71 @@
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/library/!svn/ver/1/lib/Cake/Console/Command/Task
+END
+FixtureTask.php
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/library/!svn/ver/1/lib/Cake/Console/Command/Task/FixtureTask.php
+END
+ProjectTask.php
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/library/!svn/ver/1/lib/Cake/Console/Command/Task/ProjectTask.php
+END
+ExtractTask.php
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/library/!svn/ver/1/lib/Cake/Console/Command/Task/ExtractTask.php
+END
+ViewTask.php
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/library/!svn/ver/1/lib/Cake/Console/Command/Task/ViewTask.php
+END
+DbConfigTask.php
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/library/!svn/ver/1/lib/Cake/Console/Command/Task/DbConfigTask.php
+END
+TemplateTask.php
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/library/!svn/ver/1/lib/Cake/Console/Command/Task/TemplateTask.php
+END
+PluginTask.php
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/library/!svn/ver/1/lib/Cake/Console/Command/Task/PluginTask.php
+END
+TestTask.php
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/library/!svn/ver/1/lib/Cake/Console/Command/Task/TestTask.php
+END
+ModelTask.php
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/library/!svn/ver/1/lib/Cake/Console/Command/Task/ModelTask.php
+END
+BakeTask.php
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/library/!svn/ver/1/lib/Cake/Console/Command/Task/BakeTask.php
+END
+ControllerTask.php
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/library/!svn/ver/1/lib/Cake/Console/Command/Task/ControllerTask.php
+END

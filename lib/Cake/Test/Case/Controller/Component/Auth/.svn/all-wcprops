@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/library/!svn/ver/1/lib/Cake/Test/Case/Controller/Component/Auth
+END
+ActionsAuthorizeTest.php
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/library/!svn/ver/1/lib/Cake/Test/Case/Controller/Component/Auth/ActionsAuthorizeTest.php
+END
+ControllerAuthorizeTest.php
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/library/!svn/ver/1/lib/Cake/Test/Case/Controller/Component/Auth/ControllerAuthorizeTest.php
+END
+DigestAuthenticateTest.php
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/library/!svn/ver/1/lib/Cake/Test/Case/Controller/Component/Auth/DigestAuthenticateTest.php
+END
+BasicAuthenticateTest.php
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/library/!svn/ver/1/lib/Cake/Test/Case/Controller/Component/Auth/BasicAuthenticateTest.php
+END
+FormAuthenticateTest.php
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/library/!svn/ver/1/lib/Cake/Test/Case/Controller/Component/Auth/FormAuthenticateTest.php
+END
+CrudAuthorizeTest.php
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/library/!svn/ver/1/lib/Cake/Test/Case/Controller/Component/Auth/CrudAuthorizeTest.php
+END

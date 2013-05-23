@@ -1,0 +1,89 @@
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/library/!svn/ver/1/lib/Cake/Test/Case/Utility
+END
+ValidationTest.php
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/library/!svn/ver/1/lib/Cake/Test/Case/Utility/ValidationTest.php
+END
+FolderTest.php
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/library/!svn/ver/1/lib/Cake/Test/Case/Utility/FolderTest.php
+END
+SetTest.php
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/library/!svn/ver/1/lib/Cake/Test/Case/Utility/SetTest.php
+END
+CakeNumberTest.php
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/library/!svn/ver/1/lib/Cake/Test/Case/Utility/CakeNumberTest.php
+END
+ClassRegistryTest.php
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/library/!svn/ver/1/lib/Cake/Test/Case/Utility/ClassRegistryTest.php
+END
+FileTest.php
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/library/!svn/ver/1/lib/Cake/Test/Case/Utility/FileTest.php
+END
+XmlTest.php
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/library/!svn/ver/1/lib/Cake/Test/Case/Utility/XmlTest.php
+END
+CakeTimeTest.php
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/library/!svn/ver/1/lib/Cake/Test/Case/Utility/CakeTimeTest.php
+END
+ObjectCollectionTest.php
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/library/!svn/ver/1/lib/Cake/Test/Case/Utility/ObjectCollectionTest.php
+END
+DebuggerTest.php
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/library/!svn/ver/1/lib/Cake/Test/Case/Utility/DebuggerTest.php
+END
+InflectorTest.php
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/library/!svn/ver/1/lib/Cake/Test/Case/Utility/InflectorTest.php
+END
+SanitizeTest.php
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/library/!svn/ver/1/lib/Cake/Test/Case/Utility/SanitizeTest.php
+END
+StringTest.php
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/library/!svn/ver/1/lib/Cake/Test/Case/Utility/StringTest.php
+END
+SecurityTest.php
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/library/!svn/ver/1/lib/Cake/Test/Case/Utility/SecurityTest.php
+END
