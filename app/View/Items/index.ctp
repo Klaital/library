@@ -1,6 +1,11 @@
 <h1>Items Registered</h1>
 <?php echo $this->Html->link('Add Item', array('controller' => 'items', 'action' => 'add')); ?><br />
-<?php echo $this->Html->link('Find Item', array('controller' => 'items', 'action' => 'search')); ?>
+<?php echo $this->Html->link('Find Item', array('controller' => 'items', 'action' => 'search')); ?><br />
+<?php
+    echo $this->Paginator->sort('item_id');
+    echo $this->Paginator->prev('<<Previous', null, null, array('class' => 'disabled'));
+    echo $this->Paginator->next('Next>>', null, null, array('class' => 'disabled'));
+?>
 
 <table>
     <tr>
@@ -14,7 +19,7 @@
         <th>Added to Db</th>
         <th>Actions</th>
     </tr>
-    <?php foreach ($items as $item): ?>
+    <?php foreach ($data as $item): ?>
     <tr>
         <td><?php echo $this->Html->link($item['Item']['id'],
                 array('controller' => 'items', 'action' => 'edit', $item['Item']['id'])); ?></td>

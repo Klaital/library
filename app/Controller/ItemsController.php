@@ -1,7 +1,14 @@
 <?php
 class ItemsController extends AppController {
-    public $helpers = array('Html', 'Form');
+    public $helpers = array('Html', 'Form', 'Paginator');
     public $components = array('Session');
+
+    public $paginate = array(
+            'limit' => 25,
+            'order' => array(
+                'Item.location' => 'asc'
+            )
+    );
 
     var $name = 'Items';
 
@@ -12,6 +19,11 @@ class ItemsController extends AppController {
                     'Item.location' => array($location)
             );
         }
+        $this->paginate['conditions'] = $conditions
+        $data = $this->paginate('Item');
+        $this->set('data', $data);
+
+        $this->set('items', $this->paginate('Item'));
         $this->set('items', $this->Item->find('all', $conditions));
     }
 
