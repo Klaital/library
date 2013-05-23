@@ -19,7 +19,7 @@ class ItemsController extends AppController {
                     'Item.location' => array($location)
             );
         }
-        $this->paginate['conditions'] = $conditions
+        $this->paginate['conditions'] = $conditions;
         $data = $this->paginate('Item');
         $this->set('data', $data);
 
