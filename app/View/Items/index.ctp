@@ -2,8 +2,10 @@
 <?php echo $this->Html->link('Add Item', array('controller' => 'items', 'action' => 'add')); ?><br />
 <?php echo $this->Html->link('Find Item', array('controller' => 'items', 'action' => 'search')); ?><br />
 <?php
-    echo $this->Paginator->sort('item_id');
     echo $this->Paginator->prev('<<Previous', null, null, array('class' => 'disabled'));
+    echo ' ';
+    echo $this->Paginator->numbers();
+    echo ' ';
     echo $this->Paginator->next('Next>>', null, null, array('class' => 'disabled'));
 ?>
 
@@ -16,7 +18,6 @@
         <th>Description</th>
         <th>Data Source</th>
         <th>Comments</th>
-        <th>Added to Db</th>
         <th>Actions</th>
     </tr>
     <?php foreach ($data as $item): ?>
@@ -30,7 +31,6 @@
         <td><?php echo $item['Item']['title']; ?></td>
         <td><?php echo $item['Item']['data_source']; ?></td>
         <td><?php echo $item['Item']['comments']; ?></td>
-        <td><?php echo $item['Item']['created']; ?></td>
         <td>
             <?php echo $this->Html->link('Edit', array(
                         'controller' => 'items', 'action' => 'edit', $item['Item']['id']));
