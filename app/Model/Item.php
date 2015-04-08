@@ -1,5 +1,5 @@
 <?php
-require_once('XML/RPC.php');
+#require_once('XML/RPC.php');
 
 class Item extends AppModel {
     var $name = 'Item';
@@ -136,27 +136,27 @@ class Item extends AppModel {
 
     function lookupUpcDatabaseDotCom($code) {
         // Try to look up from upcdatabase.com
-        $this->log('upcdatabase.com querying code ' . $code, 'debug');
-        $rpc_key = 'd9c8d499be82d372f77f32ca507077206a97a898';
-        $client = new XML_RPC_Client('/xmlrpc', 'http://www.upcdatabase.com');
-        $params = array( new XML_RPC_Value( array(
-                        'rpc_key' => new XML_RPC_Value($rpc_key, 'string'),
-                        'upc' => new XML_RPC_Value($code, 'string'),
-                        ), 'struct'));
-        $msg = new XML_RPC_Message('lookup', $params);
-        $resp = $client->send($msg);
-        if ($resp) {
-            $upc_data = XML_RPC_decode($resp->value());
-            $this->log('upcdatabase.com lookup success for code ' . $code, 'debug');
-            $this->log($upc_data, 'debug');
-            if (isset($upc_data['description']) && !empty($upc_data['description'])) {
-                return $upc_data['description'];
-            } else {
-                $this->log('upcdatabase.com response: No description field found', 'debug');
-            }
-        } else {
-            $this->log('updatabase.com lookup failed: ' . $client->errstr, 'debug');
-        }
+#        $this->log('upcdatabase.com querying code ' . $code, 'debug');
+#        $rpc_key = 'd9c8d499be82d372f77f32ca507077206a97a898';
+#        $client = new XML_RPC_Client('/xmlrpc', 'http://www.upcdatabase.com');
+#        $params = array( new XML_RPC_Value( array(
+#                        'rpc_key' => new XML_RPC_Value($rpc_key, 'string'),
+#                        'upc' => new XML_RPC_Value($code, 'string'),
+#                        ), 'struct'));
+#        $msg = new XML_RPC_Message('lookup', $params);
+#        $resp = $client->send($msg);
+#        if ($resp) {
+#            $upc_data = XML_RPC_decode($resp->value());
+#            $this->log('upcdatabase.com lookup success for code ' . $code, 'debug');
+#            $this->log($upc_data, 'debug');
+#            if (isset($upc_data['description']) && !empty($upc_data['description'])) {
+#                return $upc_data['description'];
+#            } else {
+#                $this->log('upcdatabase.com response: No description field found', 'debug');
+#            }
+#        } else {
+#            $this->log('updatabase.com lookup failed: ' . $client->errstr, 'debug');
+#        }
 
         return false;
     }
