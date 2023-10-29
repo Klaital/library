@@ -1,0 +1,59 @@
+<html>
+<head>
+    <title>Locations | AF Library</title>
+</head>
+<body>
+    <div id="header">
+        <h1>AF Library</h1>
+        <a>About</a>
+        <a>Login</a>
+    </div>
+    <div id="content">
+        <h2>Locations</h2>
+        {{range .Locations}}
+        <div class="location-block">
+            <h3>{{.Name}}</h3>
+            <span class="loc-data">
+                <label for="loc-id-{{.ID}}">ID</label>
+                <input readonly="true" id="loc-id-{{.ID}}" value="{{.ID}}">
+            </span>
+            <span class="loc-data">
+                <label for="loc-name-{{.ID}}">Name</label>
+                <input readonly="true" id="loc-name-{{.ID}}" value="{{.Name}}">
+            </span>
+            <span class="loc-data">
+                <label for="loc-notes-{{.ID}}">Name</label>
+                <input readonly="true" id="loc-notes-{{.ID}}" value="{{.Notes}}">
+            </span>
+        </div>
+
+        <h3>Items</h3>
+        <div id="loc-items-{{.ID}}">
+            <table>
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Title</th>
+                    <th>Code</th>
+                    <th>Type</th>
+                    <th>Data Source</th>
+                </tr>
+                </thead>
+                <tbody>
+                {{range .Items}}
+                <tr id="item-{{.ID}}">
+                    <td>{{.ID}}</td>
+                    <td>{{.Title}}</td>
+                    <td>{{.Code}}</td>
+                    <td>{{.CodeType}}</td>
+                    <td>{{.CodeSource}}</td>
+                </tr>
+                {{end}}
+                </tbody>
+            </table>
+        </div>
+
+        {{end}}
+    </div>
+</body>
+</html>
