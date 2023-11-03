@@ -1,1 +1,6 @@
 app/tmp/*
+
+# Databases
+*.db
+*.sqlite3
+
