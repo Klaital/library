@@ -21,7 +21,10 @@ func (svc *Service) WebListLocations(w http.ResponseWriter, r *http.Request, _ h
 	}
 	viewData.Locations = locations
 
-	w.Header().Set("Content-Type", "text/html")
+	// Validate the titles' encoding
+
+	w.Header().Set("Content-Type", "text/html; charset=utf-8")
+	//w.Header().Set("Content-Encoding", "utf-8")
 	err = svc.htmlTemplates.ExecuteTemplate(w, "ListLocations.html", viewData)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
