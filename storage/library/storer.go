@@ -27,6 +27,24 @@ func New(db *sql.DB) *Storer {
 
 var ErrNotImplemented = errors.New("operation not implemented")
 
+func (s *Storer) GetAllItems(ctx context.Context) ([]Item, error) {
+	// TODO: optimize this into a single query. sqlc is currently generating a separate row struct for ListAllItems, which would require maintaining another mapper.
+	l, err := s.GetLocations(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	// Flatten all of the items into a single slice
+	items := make([]Item, 0)
+	for _, loc := range l {
+		for j := range loc.Items {
+			items = append(items, loc.Items[j])
+		}
+	}
+
+	return items, nil
+}
+
 func (s *Storer) GetLocations(ctx context.Context) ([]Location, error) {
 	l, err := s.queries.ListLocations(ctx)
 	if err != nil {

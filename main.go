@@ -10,6 +10,7 @@ import (
 	"github.com/klaital/library/service"
 	"github.com/klaital/library/storage/library"
 	_ "github.com/mattn/go-sqlite3"
+	"github.com/rs/cors"
 	"log/slog"
 	"net/http"
 	"os"
@@ -40,6 +41,7 @@ func main() {
 		slog.Error("Failed to load db migrations dir", "err", err)
 		panic("failed to load db migrations")
 	}
+
 	//driver, err := sqlite3.WithInstance(db, &sqlite3.Config{})
 	//if err != nil {
 	//	slog.Error("Failed to prepare migration driver", "err", err)
@@ -78,8 +80,12 @@ func main() {
 	router.POST("/api/locations/:locationId/items", svc.HandleCreateItem)
 
 	// Web UI
-	router.GET("/locations", svc.WebListLocations)
+	router.ServeFiles("/web/*filepath", http.Dir("web"))
+	//router.GET("/locations", svc.WebListLocations)
+	//router.GET("/items", svc.WebAllItems)
 
 	slog.Info("Listening for HTTP requests on :8080")
-	http.ListenAndServe(":8080", router)
+
+	corsHandler := cors.Default().Handler(router)
+	http.ListenAndServe(":8080", corsHandler)
 }

@@ -43,6 +43,58 @@ func (q *Queries) CreateItem(ctx context.Context, arg CreateItemParams) (int64, 
 	return id, err
 }
 
+const listAllItems = `-- name: ListAllItems :many
+SELECT id, code, code_type, code_source,
+       title, title_translated, title_transliterated,
+       created_at, updated_at
+FROM items
+`
+
+type ListAllItemsRow struct {
+	ID                  int64
+	Code                string
+	CodeType            string
+	CodeSource          string
+	Title               string
+	TitleTranslated     sql.NullString
+	TitleTransliterated sql.NullString
+	CreatedAt           time.Time
+	UpdatedAt           time.Time
+}
+
+func (q *Queries) ListAllItems(ctx context.Context) ([]ListAllItemsRow, error) {
+	rows, err := q.db.QueryContext(ctx, listAllItems)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []ListAllItemsRow
+	for rows.Next() {
+		var i ListAllItemsRow
+		if err := rows.Scan(
+			&i.ID,
+			&i.Code,
+			&i.CodeType,
+			&i.CodeSource,
+			&i.Title,
+			&i.TitleTranslated,
+			&i.TitleTransliterated,
+			&i.CreatedAt,
+			&i.UpdatedAt,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
 const listItemsForLocation = `-- name: ListItemsForLocation :many
 SELECT id, code, code_type, code_source,
        title, title_translated, title_transliterated,
