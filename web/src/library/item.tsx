@@ -12,7 +12,7 @@ export function ItemRow(props:ItemData) {
             <td>
                 {props.ID}
             </td>
-            <td>
+            <td className="item-title">
                 {props.Title}
             </td>
         </tr>

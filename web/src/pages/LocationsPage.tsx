@@ -29,7 +29,8 @@ export default function LocationsPage() {
         <Header />
         <h2>Locations</h2>
         <div>
-            <input onChange={e => setTitleFilter(e.target.value)} />
+            <label htmlFor="filter-box">Filter by title: </label>
+            <input onChange={e => setTitleFilter(e.target.value)} id="filter-box"/>
         </div>
         {locationsSet}
         </>

@@ -1,4 +1,6 @@
 import {ItemData, ItemRow} from "./item";
+import "./location.css"
+
 
 export interface LocationData {
     Name: string;
@@ -21,8 +23,7 @@ export function Location(props:LocationProps) {
         <div className="location-block">
             <h2>{props.Location.Name}</h2>
             <div className="location-items">
-                <h3>Items here</h3>
-                <table>
+                <table className="items-list">
                     <thead>
                     <tr>
                         <th>ID</th>

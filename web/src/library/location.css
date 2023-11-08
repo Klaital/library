@@ -1,0 +1,12 @@
+
+.items-list th {
+    border: 1px solid;
+}
+
+.items-list td {
+    border-bottom: 1px solid;
+}
+
+td.item-title {
+    width: 300px;
+}

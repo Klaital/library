@@ -80,7 +80,7 @@ func main() {
 	router.POST("/api/locations/:locationId/items", svc.HandleCreateItem)
 
 	// Web UI
-	router.ServeFiles("/web/*filepath", http.Dir("web"))
+	router.ServeFiles("/web/*filepath", http.Dir("web/build"))
 	//router.GET("/locations", svc.WebListLocations)
 	//router.GET("/items", svc.WebAllItems)
 

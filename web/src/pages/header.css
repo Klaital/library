@@ -1,0 +1,26 @@
+
+.site-header {
+    background-color: rgba(1,4,9,0.8);
+    flex-wrap: wrap;
+
+}
+
+.site-header_wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+a.header-tile {
+    text-decoration: none;
+    color: rgb(230, 237, 243);
+    font-family: Lato, "Helvetica Neue", helvetica, sans-serif;
+    font-size: 16px;
+    box-sizing: border-box;
+    padding-left: 16px;
+    padding-right: 16px;
+}
+
+a.header-title {
+    font-size: 30px;
+}
