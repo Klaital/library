@@ -78,13 +78,21 @@ func (svc *Service) HandleCreateLocation(w http.ResponseWriter, r *http.Request,
 		return
 	}
 
-	_, err = svc.LibraryStorage.CreateLocation(r.Context(), loc)
+	newId, err := svc.LibraryStorage.CreateLocation(r.Context(), loc)
 	if err != nil {
 		slog.Debug("Failed to create location", "err", err)
 		w.WriteHeader(500)
 		return
 	}
+	loc.ID = newId
 
+	b, err := json.Marshal(loc)
+	if err != nil {
+		slog.Error("Failed to marshal response", "err", err)
+		w.WriteHeader(500)
+		return
+	}
+	w.Write(b)
 	w.WriteHeader(200)
 }
 
