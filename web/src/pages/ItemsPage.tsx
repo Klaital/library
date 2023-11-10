@@ -1,12 +1,28 @@
 import Header from "./Header";
 import {ItemData, ItemRow} from "../library/item";
+import {useEffect, useState} from "react";
 
 
 export interface ItemsPageProps {
-    Items: ItemData[];
+    // Items: ItemData[];
 }
 export function ItemsPage(props: ItemsPageProps) {
-    const itemRows = props.Items.map(item =>
+    const initialItems:ItemData[] = [];
+    const [items, setItems] = useState(initialItems);
+
+    useEffect(() => {
+        fetch(`http://localhost:8080/api/items`)
+            .then((resp) => resp.json())
+            .then((actualData) => {
+                setItems(actualData);
+            })
+            .catch((err) => {
+                console.log(err.message);
+            });
+    }, []);
+
+
+    const itemRows = items.map(item =>
         <ItemRow
             key={item.ID}
             ID={item.ID}

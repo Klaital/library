@@ -86,6 +86,22 @@ func main() {
 
 	slog.Info("Listening for HTTP requests on :8080")
 
-	corsHandler := cors.Default().Handler(router)
+	corsCfg := cors.New(cors.Options{
+		AllowedOrigins:             nil,
+		AllowOriginFunc:            nil,
+		AllowOriginRequestFunc:     nil,
+		AllowOriginVaryRequestFunc: nil,
+		AllowedMethods:             []string{"GET", "POST", "HEAD"},
+		AllowedHeaders:             []string{"Accept", "Content-Type"},
+		ExposedHeaders:             nil,
+		MaxAge:                     0,
+		AllowCredentials:           false,
+		AllowPrivateNetwork:        false,
+		OptionsPassthrough:         false,
+		OptionsSuccessStatus:       0,
+		Debug:                      false,
+	})
+
+	corsHandler := corsCfg.Handler(router)
 	http.ListenAndServe(":8080", corsHandler)
 }
