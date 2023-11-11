@@ -52,3 +52,21 @@ func ItemFromQueries(qi queries.ListItemsForLocationRow) Item {
 	item.UpdatedAt = qi.UpdatedAt
 	return item
 }
+
+func ItemFromGetItemRow(qi queries.GetItemRow) Item {
+	var item Item
+	item.ID = uint64(qi.ID)
+	item.Code = qi.Code
+	item.CodeType = qi.CodeType
+	item.CodeSource = qi.CodeSource
+	item.Title = qi.Title
+	if qi.TitleTranslated.Valid {
+		item.TitleTranslated = qi.TitleTranslated.String
+	}
+	if qi.TitleTransliterated.Valid {
+		item.TitleTransliterated = qi.TitleTransliterated.String
+	}
+	item.CreatedAt = qi.CreatedAt
+	item.UpdatedAt = qi.UpdatedAt
+	return item
+}

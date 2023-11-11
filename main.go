@@ -78,11 +78,11 @@ func main() {
 	router.POST("/api/locations", svc.HandleCreateLocation)
 	router.GET("/api/locations/:locationId/items", svc.HandleGetItemsForLocation)
 	router.POST("/api/locations/:locationId/items", svc.HandleCreateItem)
+	router.PUT("/api/items/:itemId/relocate/:locationId", svc.HandleMoveItem)
+	router.GET("/api/code", svc.HandleCodeLookup)
 
 	// Web UI
 	router.ServeFiles("/web/*filepath", http.Dir("web/build"))
-	//router.GET("/locations", svc.WebListLocations)
-	//router.GET("/items", svc.WebAllItems)
 
 	slog.Info("Listening for HTTP requests on :8080")
 

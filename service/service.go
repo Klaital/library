@@ -149,3 +149,47 @@ func (svc *Service) HandleGetItemsForLocation(w http.ResponseWriter, r *http.Req
 	w.WriteHeader(200)
 	w.Write(b)
 }
+
+type CodeLookupRequest struct {
+	Code string
+	Type string
+}
+
+func (svc *Service) HandleCodeLookup(w http.ResponseWriter, r *http.Request, params httprouter.Params) {
+
+}
+
+func (svc *Service) HandleMoveItem(w http.ResponseWriter, r *http.Request, params httprouter.Params) {
+	newLocation := params.ByName("locId")
+	itemIdRaw := params.ByName("itemId")
+	if len(newLocation) == 0 {
+		w.WriteHeader(400)
+		return
+	}
+	if len(itemIdRaw) == 0 {
+		w.WriteHeader(400)
+		return
+	}
+
+	itemId, err := strconv.ParseInt(itemIdRaw, 10, 0)
+	if err != nil {
+		slog.Error("Failed to parse Item ID", "rawId", itemIdRaw, "err", err)
+		w.WriteHeader(400)
+		return
+	}
+	locationId, err := strconv.ParseInt(newLocation, 10, 0)
+	if err != nil {
+		slog.Error("Failed to parse Location ID", "rawId", newLocation, "err", err)
+		w.WriteHeader(400)
+		return
+	}
+
+	err = svc.LibraryStorage.MoveItem(r.Context(), itemId, locationId)
+	if err != nil {
+		slog.Error("Failed to move item", "err", err)
+		w.WriteHeader(500)
+		return
+	}
+
+	w.WriteHeader(200)
+}

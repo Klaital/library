@@ -5,6 +5,7 @@ import (
 	"database/sql"
 	"embed"
 	"errors"
+	"fmt"
 	"github.com/klaital/library/storage/library/queries"
 	_ "github.com/mattn/go-sqlite3"
 	"log/slog"
@@ -141,8 +142,13 @@ func (s *Storer) ListItemsForLocation(ctx context.Context, locationId uint64) ([
 	return items, nil
 }
 
-func (s *Storer) DescribeItem(itemId uint64) (*Item, error) {
-	return nil, ErrNotImplemented
+func (s *Storer) DescribeItem(ctx context.Context, itemId uint64) (*Item, error) {
+	row, err := s.queries.GetItem(ctx, int64(itemId))
+	if err != nil {
+		return nil, fmt.Errorf("fetching item data: %w", err)
+	}
+	i := ItemFromGetItemRow(row)
+	return &i, nil
 }
 
 func (s *Storer) UpdateItem(item Item) error {
@@ -151,4 +157,15 @@ func (s *Storer) UpdateItem(item Item) error {
 
 func (s *Storer) DeleteItem(itemId uint64) error {
 	return ErrNotImplemented
+}
+
+func (s *Storer) MoveItem(ctx context.Context, itemId int64, locationId int64) error {
+	err := s.queries.MoveItem(ctx, queries.MoveItemParams{
+		LocationID: locationId,
+		ID:         itemId,
+	})
+	if err != nil {
+		return fmt.Errorf("updating item: %w", err)
+	}
+	return nil
 }

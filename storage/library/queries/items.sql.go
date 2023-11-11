@@ -43,6 +43,43 @@ func (q *Queries) CreateItem(ctx context.Context, arg CreateItemParams) (int64, 
 	return id, err
 }
 
+const getItem = `-- name: GetItem :one
+SELECT id, code, code_type, code_source,
+       title, title_translated, title_transliterated,
+       created_at, updated_at
+FROM items
+WHERE id=?
+`
+
+type GetItemRow struct {
+	ID                  int64
+	Code                string
+	CodeType            string
+	CodeSource          string
+	Title               string
+	TitleTranslated     sql.NullString
+	TitleTransliterated sql.NullString
+	CreatedAt           time.Time
+	UpdatedAt           time.Time
+}
+
+func (q *Queries) GetItem(ctx context.Context, id int64) (GetItemRow, error) {
+	row := q.db.QueryRowContext(ctx, getItem, id)
+	var i GetItemRow
+	err := row.Scan(
+		&i.ID,
+		&i.Code,
+		&i.CodeType,
+		&i.CodeSource,
+		&i.Title,
+		&i.TitleTranslated,
+		&i.TitleTransliterated,
+		&i.CreatedAt,
+		&i.UpdatedAt,
+	)
+	return i, err
+}
+
 const listAllItems = `-- name: ListAllItems :many
 SELECT id, code, code_type, code_source,
        title, title_translated, title_transliterated,
@@ -146,4 +183,18 @@ func (q *Queries) ListItemsForLocation(ctx context.Context, locationID int64) ([
 		return nil, err
 	}
 	return items, nil
+}
+
+const moveItem = `-- name: MoveItem :exec
+UPDATE items SET location_id = ? WHERE id = ? LIMIT 1
+`
+
+type MoveItemParams struct {
+	LocationID int64
+	ID         int64
+}
+
+func (q *Queries) MoveItem(ctx context.Context, arg MoveItemParams) error {
+	_, err := q.db.ExecContext(ctx, moveItem, arg.LocationID, arg.ID)
+	return err
 }
