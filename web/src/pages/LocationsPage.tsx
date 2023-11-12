@@ -7,7 +7,7 @@ export default function LocationsPage() {
     const [locations, setLocations] = useState(initialLocations);
     const [titleFilter, setTitleFilter] = useState("");
     useEffect(() => {
-        fetch(`http://localhost:8080/api/locations`)
+        fetch(`https://library.klaital.com/api/locations`)
             .then((resp) => resp.json())
             .then((actualData) => {
                 setLocations(actualData);

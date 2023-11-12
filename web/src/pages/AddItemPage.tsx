@@ -38,7 +38,7 @@ export function AddItemPage(props: AddItemPageProps) {
 
     function handleCreateLocation(event: FormEvent<CreateLocationFormElement>) {
         event.preventDefault();
-        fetch('http://localhost:8080/api/locations', {
+        fetch('https://library.klaital.com/api/locations', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -65,7 +65,7 @@ export function AddItemPage(props: AddItemPageProps) {
     }
 
     useEffect(() => {
-        fetch(`http://localhost:8080/api/locations`)
+        fetch(`https://library.klaital.com/api/locations`)
             .then((resp) => resp.json())
             .then(
                 (result) => {

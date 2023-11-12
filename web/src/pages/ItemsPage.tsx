@@ -11,7 +11,7 @@ export function ItemsPage(props: ItemsPageProps) {
     const [items, setItems] = useState(initialItems);
 
     useEffect(() => {
-        fetch(`http://localhost:8080/api/items`)
+        fetch(`https://library.klaital.com/api/items`)
             .then((resp) => resp.json())
             .then((actualData) => {
                 setItems(actualData);
