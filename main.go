@@ -2,6 +2,7 @@ package main
 
 import (
 	"database/sql"
+	"errors"
 	"fmt"
 	"github.com/golang-migrate/migrate/v4"
 	_ "github.com/golang-migrate/migrate/v4/database/sqlite3"
@@ -57,7 +58,7 @@ func main() {
 		panic("failed to prepare migration driver")
 	}
 	err = m.Up()
-	if err == migrate.ErrNoChange {
+	if errors.Is(err, migrate.ErrNoChange) {
 		slog.Debug("migrations not needed")
 	} else if err != nil {
 		slog.Error("Failed to execute db migrations", "err", err)
@@ -83,7 +84,7 @@ func main() {
 	router.GET("/api/locations/:locationId/items", svc.HandleGetItemsForLocation)
 	router.POST("/api/locations/:locationId/items", svc.HandleCreateItem)
 	router.PUT("/api/items/:itemId/relocate/:locationId", svc.HandleMoveItem)
-	router.GET("/api/code", svc.HandleCodeLookup)
+	router.GET("/api/code/:type/:code", svc.HandleCodeLookup)
 
 	// Web UI
 	router.ServeFiles("/web/*filepath", http.Dir("web/build"))

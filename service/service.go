@@ -5,20 +5,23 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/julienschmidt/httprouter"
+	"github.com/klaital/library/gbooks"
 	"github.com/klaital/library/storage/library"
 	"html/template"
 	"io"
 	"log/slog"
 	"net/http"
 	"strconv"
+	"strings"
 )
 
 //go:embed templates/*.html
 var htmlTemplateData embed.FS
 
 type Service struct {
-	LibraryStorage *library.Storer
-	htmlTemplates  *template.Template
+	LibraryStorage    *library.Storer
+	htmlTemplates     *template.Template
+	GoogleBooksClient *gbooks.Client
 }
 
 func New(storer *library.Storer) *Service {
@@ -28,8 +31,9 @@ func New(storer *library.Storer) *Service {
 		panic("failed to parse html templates")
 	}
 	return &Service{
-		LibraryStorage: storer,
-		htmlTemplates:  tmpl,
+		LibraryStorage:    storer,
+		htmlTemplates:     tmpl,
+		GoogleBooksClient: gbooks.New(""),
 	}
 }
 
@@ -156,7 +160,42 @@ type CodeLookupRequest struct {
 }
 
 func (svc *Service) HandleCodeLookup(w http.ResponseWriter, r *http.Request, params httprouter.Params) {
+	codeType := params.ByName("type")
+	if len(codeType) == 0 {
+		w.Write([]byte("no code type specified"))
+		w.WriteHeader(400)
+		return
+	}
 
+	code := params.ByName("code")
+	if len(code) == 0 {
+		w.Write([]byte("no code specified"))
+		w.WriteHeader(400)
+		return
+	}
+
+	if strings.ToLower(codeType) == "isbn" {
+		itemData, err := svc.GoogleBooksClient.LookupIsbn(r.Context(), code)
+		if err != nil {
+			slog.Error("Failed to look up ISBN", "err", err, "ISBN", code)
+			w.WriteHeader(500)
+			return
+		}
+		b, err := json.Marshal(itemData)
+		if err != nil {
+			slog.Error("Failed to marshal response", "err", err)
+			w.WriteHeader(500)
+			return
+		}
+		w.WriteHeader(200)
+		w.Write(b)
+		return
+	} else {
+		slog.Debug("Unknown code type", "type", codeType, "code", code)
+		w.WriteHeader(400)
+		w.Write([]byte("Unknown Code Type"))
+		return
+	}
 }
 
 func (svc *Service) HandleMoveItem(w http.ResponseWriter, r *http.Request, params httprouter.Params) {
