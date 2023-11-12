@@ -37,7 +37,7 @@ func main() {
 		slog.Error("Failed to connect to db", "err", err, "path", dbPath)
 		panic("failed to connect to db")
 	}
-	slog.Info("established connection to database")
+	slog.Info("established connection to database", "db", dbPath)
 
 	// Run DB migrations to ensure schema is up-to-date
 	migrationsDir, err := iofs.New(library.Migrations, "migrations")
