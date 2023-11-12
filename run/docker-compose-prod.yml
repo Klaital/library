@@ -1,0 +1,12 @@
+version: '3.8'
+services:
+  login:
+    container_name: library-api
+    image: ghcr.io/klaital/library-api:latest
+    ports:
+      - 10001:8080
+    environment:
+      - DB_FILE=prod.env
+    volumes:
+      - ./prod.db:/usr/local/bin/prod.db:rw,delegated
+

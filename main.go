@@ -27,7 +27,11 @@ func main() {
 	// Prepare the DB
 	//
 	// Connect to DB
-	dbPath := "dev.db"
+	dbPath := os.Getenv("DB_FILE")
+	if dbPath == "" {
+		dbPath = "dev.db"
+	}
+
 	db, err := sql.Open("sqlite3", dbPath)
 	if err != nil {
 		slog.Error("Failed to connect to db", "err", err, "path", dbPath)
