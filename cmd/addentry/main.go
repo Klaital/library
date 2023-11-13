@@ -7,7 +7,8 @@ import (
 	"context"
 	"flag"
 	"fmt"
-	"github.com/klaital/library/gbooks"
+	"github.com/klaital/library/datasources/gbooks"
+	"github.com/klaital/library/datasources/upcdatabasedotorg"
 	"github.com/klaital/library/storage/library"
 	"os"
 )
@@ -38,6 +39,18 @@ func main() {
 		item, err = isbnClient.LookupIsbn(context.Background(), cfg.code)
 		if err != nil {
 			fmt.Printf("Failed to look up ISBN: %s\n", err.Error())
+			os.Exit(1)
+		}
+	} else if cfg.codeType == "UPC" {
+		apiKey := os.Getenv("UPCDATABASEDOTORG_KEY")
+		if apiKey == "" {
+			fmt.Printf("Need API key for upcdatabase.org. Set as env var UPCDATABASEDOTORG_KEY")
+			os.Exit(1)
+		}
+		upcClient := upcdatabasedotorg.New(apiKey)
+		item, err = upcClient.LookupUpc(cfg.code)
+		if err != nil {
+			fmt.Printf("Failed to look up UPC: %s\n", err.Error())
 			os.Exit(1)
 		}
 	} else {

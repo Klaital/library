@@ -5,7 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/julienschmidt/httprouter"
-	"github.com/klaital/library/gbooks"
+	"github.com/klaital/library/datasources/gbooks"
 	"github.com/klaital/library/storage/library"
 	"html/template"
 	"io"
