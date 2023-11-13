@@ -6,11 +6,13 @@ import (
 	"fmt"
 	"github.com/julienschmidt/httprouter"
 	"github.com/klaital/library/datasources/gbooks"
+	"github.com/klaital/library/datasources/upcdatabasedotorg"
 	"github.com/klaital/library/storage/library"
 	"html/template"
 	"io"
 	"log/slog"
 	"net/http"
+	"os"
 	"strconv"
 	"strings"
 )
@@ -22,6 +24,7 @@ type Service struct {
 	LibraryStorage    *library.Storer
 	htmlTemplates     *template.Template
 	GoogleBooksClient *gbooks.Client
+	UpcDatabaseClient *upcdatabasedotorg.Client
 }
 
 func New(storer *library.Storer) *Service {
@@ -30,11 +33,19 @@ func New(storer *library.Storer) *Service {
 		slog.Error("Failed to parse html templates", "error", err.Error())
 		panic("failed to parse html templates")
 	}
-	return &Service{
+	svc := &Service{
 		LibraryStorage:    storer,
 		htmlTemplates:     tmpl,
 		GoogleBooksClient: gbooks.New(""),
 	}
+	apiKey := os.Getenv("UPCDATABASEDOTORG_KEY")
+	if apiKey == "" {
+		slog.Error("No API key given for upcdatabase.org. Expected to be set in env var UPCDATABASEDOTORG_KEY")
+	} else {
+		svc.UpcDatabaseClient = upcdatabasedotorg.New(apiKey)
+	}
+
+	return svc
 }
 
 func readJson(r *http.Request, target any) error {
@@ -190,6 +201,28 @@ func (svc *Service) HandleCodeLookup(w http.ResponseWriter, r *http.Request, par
 		w.WriteHeader(200)
 		w.Write(b)
 		return
+	} else if strings.ToLower(codeType) == "upc" {
+		if svc.UpcDatabaseClient == nil {
+			slog.Error("No upcdatabase.com client configured. Unable to look up UPC data")
+			w.WriteHeader(500)
+			return
+		}
+		itemData, err := svc.UpcDatabaseClient.LookupUpc(code)
+		if err != nil {
+			slog.Error("Failed to look up UPC", "err", err, "UPC", code)
+			w.WriteHeader(500)
+			return
+		}
+		b, err := json.Marshal(itemData)
+		if err != nil {
+			slog.Error("Failed to marshal response", "err", err)
+			w.WriteHeader(500)
+			return
+		}
+		w.WriteHeader(200)
+		w.Write(b)
+		return
+
 	} else {
 		slog.Debug("Unknown code type", "type", codeType, "code", code)
 		w.WriteHeader(400)
