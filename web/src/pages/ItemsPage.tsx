@@ -21,7 +21,6 @@ export function ItemsPage(props: ItemsPageProps) {
             });
     }, []);
 
-
     const itemRows = items.map(item =>
         <ItemRow
             key={item.ID}
