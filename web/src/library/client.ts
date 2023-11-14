@@ -12,6 +12,20 @@ export class LibraryApiClient {
     async FetchLocations(): Promise<LocationData[]> {
         const resp = await fetch(Config.LIBRARY_API_BASE + `/api/locations`);
         return await resp.json();
+    }
 
+    async CreateLocation(name: string, notes: string): Promise<LocationData> {
+        const resp = await fetch(Config.LIBRARY_API_BASE + '/api/locations', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                Name: name,
+                Notes: notes,
+            })
+        })
+        return await resp.json()
     }
 }

@@ -29,6 +29,14 @@ interface NewCodeFormElement extends HTMLFormElement {
     readonly elements: NewCodeFormElements
 }
 
+interface CreateLocationFormElements extends HTMLFormControlsCollection {
+    locationNameInput: HTMLInputElement,
+    locationNotesInput: HTMLInputElement,
+}
+interface CreateLocationFormElement extends HTMLFormElement {
+    readonly elements: CreateLocationFormElements
+}
+
 export function AddVolumePage() {
     const initailLocation: LocationSelectOptions[] = []
     const [ locations, setLocations ] = useState(initailLocation)
@@ -95,6 +103,13 @@ export function AddVolumePage() {
             })
     }
 
+    function handleCreateLocation(event: FormEvent<CreateLocationFormElement>) {
+        event.preventDefault();
+        api.CreateLocation(
+            event.currentTarget.elements.locationNameInput.value,
+            event.currentTarget.elements.locationNotesInput.value)
+    }
+
     return <>
         <Header />
         <form onSubmit={handleCodeInput}>
@@ -133,6 +148,19 @@ export function AddVolumePage() {
                        value={titleTranslated}
                        onChange={e => setTitleTranslated(e.target.value)}
                 />
+            </div>
+            <input type="submit" value="Submit" />
+        </form>
+
+        <form onSubmit={handleCreateLocation}>
+            <h2>Create a new Location here</h2>
+            <div className="form-item">
+                <label htmlFor="locationNameInput">New Location Name: </label>
+                <input id="locationNameInput" />
+            </div>
+            <div className="form-item">
+                <label htmlFor="locationNotesInput">New Location Notes: </label>
+                <input id="locationNotesInput" />
             </div>
             <input type="submit" value="Submit" />
         </form>

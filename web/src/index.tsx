@@ -5,7 +5,6 @@ import reportWebVitals from './reportWebVitals';
 import {createBrowserRouter, RouterProvider} from "react-router-dom";
 import LocationsPage from "./pages/LocationsPage";
 import {ItemsPage} from "./pages/ItemsPage";
-import {AddItemPage} from "./pages/AddItemPage";
 import {AddVolumePage} from "./pages/AddVolumePage";
 
 const root = ReactDOM.createRoot(
