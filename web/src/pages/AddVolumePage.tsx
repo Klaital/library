@@ -3,16 +3,10 @@ import Select from "react-select";
 import {FormEvent, useRef, useEffect, useMemo, useState} from "react";
 import {LocationData} from "../library/location";
 import {LibraryApiClient} from "../library/client";
+import {CodeTypeSelectOptions, LocationSelectOptions} from "./FormComponentHelpers";
 
-interface LocationSelectOptions {
-    value: number,
-    label: string,
-}
 
-interface CodeTypeSelectOptions {
-    value: string,
-    label: string,
-}
+
 
 interface NewItemFormElements extends HTMLFormControlsCollection {
     titleInput: HTMLInputElement,

@@ -8,6 +8,7 @@ package queries
 import (
 	"context"
 	"database/sql"
+	"strings"
 	"time"
 )
 
@@ -78,6 +79,77 @@ func (q *Queries) GetItem(ctx context.Context, id int64) (GetItemRow, error) {
 		&i.UpdatedAt,
 	)
 	return i, err
+}
+
+const getItems = `-- name: GetItems :many
+SELECT id, location_id, code, code_type, code_source,
+       title, title_translated, title_transliterated,
+       created_at, updated_at
+FROM items
+WHERE code_type = ? AND code IN (/*SLICE:codes*/?)
+`
+
+type GetItemsParams struct {
+	CodeType string
+	Codes    []string
+}
+
+type GetItemsRow struct {
+	ID                  int64
+	LocationID          int64
+	Code                string
+	CodeType            string
+	CodeSource          string
+	Title               string
+	TitleTranslated     sql.NullString
+	TitleTransliterated sql.NullString
+	CreatedAt           time.Time
+	UpdatedAt           time.Time
+}
+
+func (q *Queries) GetItems(ctx context.Context, arg GetItemsParams) ([]GetItemsRow, error) {
+	query := getItems
+	var queryParams []interface{}
+	queryParams = append(queryParams, arg.CodeType)
+	if len(arg.Codes) > 0 {
+		for _, v := range arg.Codes {
+			queryParams = append(queryParams, v)
+		}
+		query = strings.Replace(query, "/*SLICE:codes*/?", strings.Repeat(",?", len(arg.Codes))[1:], 1)
+	} else {
+		query = strings.Replace(query, "/*SLICE:codes*/?", "NULL", 1)
+	}
+	rows, err := q.db.QueryContext(ctx, query, queryParams...)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []GetItemsRow
+	for rows.Next() {
+		var i GetItemsRow
+		if err := rows.Scan(
+			&i.ID,
+			&i.LocationID,
+			&i.Code,
+			&i.CodeType,
+			&i.CodeSource,
+			&i.Title,
+			&i.TitleTranslated,
+			&i.TitleTransliterated,
+			&i.CreatedAt,
+			&i.UpdatedAt,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
 }
 
 const listAllItems = `-- name: ListAllItems :many

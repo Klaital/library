@@ -1,8 +1,10 @@
 package service
 
 import (
+	"context"
 	"embed"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"github.com/julienschmidt/httprouter"
 	"github.com/klaital/library/datasources/gbooks"
@@ -15,6 +17,7 @@ import (
 	"os"
 	"strconv"
 	"strings"
+	"sync"
 )
 
 //go:embed templates/*.html
@@ -185,50 +188,44 @@ func (svc *Service) HandleCodeLookup(w http.ResponseWriter, r *http.Request, par
 		return
 	}
 
-	if strings.ToLower(codeType) == "isbn" {
-		itemData, err := svc.GoogleBooksClient.LookupIsbn(r.Context(), code)
-		if err != nil {
-			slog.Error("Failed to look up ISBN", "err", err, "ISBN", code)
-			w.WriteHeader(500)
-			return
-		}
-		b, err := json.Marshal(itemData)
-		if err != nil {
-			slog.Error("Failed to marshal response", "err", err)
-			w.WriteHeader(500)
-			return
-		}
-		w.WriteHeader(200)
-		w.Write(b)
+	item, err := svc.lookupCode(r.Context(), codeType, code)
+	if err != nil {
+		// TODO: discern between user and server errors
+		w.WriteHeader(500)
 		return
+	}
+	b, err := json.Marshal(item)
+	if err != nil {
+		slog.Error("Failed to marshal response", "err", err)
+		w.WriteHeader(500)
+		return
+	}
+	w.WriteHeader(200)
+	w.Write(b)
+}
+
+func (svc *Service) lookupCode(ctx context.Context, codeType, code string) (*library.Item, error) {
+	if strings.ToLower(codeType) == "isbn" {
+		itemData, err := svc.GoogleBooksClient.LookupIsbn(ctx, code)
+		if err != nil {
+			return nil, fmt.Errorf("looking up ISBN: %w", err)
+		}
+		return itemData, nil
+
 	} else if strings.ToLower(codeType) == "upc" {
 		if svc.UpcDatabaseClient == nil {
-			slog.Error("No upcdatabase.com client configured. Unable to look up UPC data")
-			w.WriteHeader(500)
-			return
+			slog.Error("No upcdatabase client configured. Unable to look up UPC data")
+			return nil, errors.New("no upcdatabase client configured")
 		}
 		itemData, err := svc.UpcDatabaseClient.LookupUpc(code)
 		if err != nil {
-			slog.Error("Failed to look up UPC", "err", err, "UPC", code)
-			w.WriteHeader(500)
-			return
+			return nil, fmt.Errorf("looking up UPC: %w", err)
 		}
-		b, err := json.Marshal(itemData)
-		if err != nil {
-			slog.Error("Failed to marshal response", "err", err)
-			w.WriteHeader(500)
-			return
-		}
-		w.WriteHeader(200)
-		w.Write(b)
-		return
+		return itemData, nil
 
-	} else {
-		slog.Debug("Unknown code type", "type", codeType, "code", code)
-		w.WriteHeader(400)
-		w.Write([]byte("Unknown Code Type"))
-		return
 	}
+	slog.Debug("Unknown code type", "type", codeType, "code", code)
+	return nil, fmt.Errorf("unknown code type '%s'", codeType)
 }
 
 func (svc *Service) HandleMoveItem(w http.ResponseWriter, r *http.Request, params httprouter.Params) {
@@ -264,4 +261,84 @@ func (svc *Service) HandleMoveItem(w http.ResponseWriter, r *http.Request, param
 	}
 
 	w.WriteHeader(200)
+}
+
+type ScanItemsRequest struct {
+	// Type specifies the code type - ISBN or UPC
+	Type string
+	// InitNew controls whether to execute lookups for the UPC/ISBN to populate new Items in the response. If not set, an empty array will be returned for codes not found in the database.
+	InitNew bool
+	// Codes specifies the list of codes to look up. The expectation is that the frontend will batch requests scanned with a barcode scanner in rapid succession, but can be used for single lookups as well.
+	Codes []string
+}
+type ScanItemsResponse struct {
+	Items map[string][]*library.Item // list of items in the DB for each Code. Items with empty arrays were not found in the DB at all.
+}
+
+func (svc *Service) HandleScanItems(w http.ResponseWriter, r *http.Request, params httprouter.Params) {
+
+	bodyRaw, err := io.ReadAll(r.Body)
+	if err != nil {
+		slog.Error("Unable to read request body", "err", err)
+		w.WriteHeader(500)
+		return
+	}
+	var data ScanItemsRequest
+	err = json.Unmarshal(bodyRaw, &data)
+	if data.Type == "" {
+		w.WriteHeader(400)
+		w.Write([]byte("Type field is required"))
+		return
+	}
+
+	if len(data.Codes) == 0 {
+		w.WriteHeader(400)
+		w.Write([]byte("No codes specified"))
+		return
+	}
+
+	// Query the service's database for existing items with the requested codes
+	existingItems, err := svc.LibraryStorage.BulkItems(r.Context(), data.Type, data.Codes)
+	if err != nil {
+		slog.Error("Failed to look up codes in local DB", "err", err)
+		w.WriteHeader(500)
+		w.Write([]byte("DB error"))
+		return
+	}
+
+	// If requested, fetch new items from remote sources
+	if data.InitNew {
+		// use a mutex to enable only one goroutine at a time to update the response map
+		var respMutex sync.Mutex
+		// use a counter to wait for all of the lookup threads to finish
+		var procCount sync.WaitGroup
+		for code, items := range existingItems {
+			if len(items) == 0 {
+				go func() {
+					procCount.Add(1)
+					// perform a remote lookup for data about this code
+					newItem, err := svc.lookupCode(r.Context(), data.Type, code)
+					if err != nil {
+						slog.Error("Failed to look up code", "code", code, "type", data.Type, "err", err)
+					} else {
+						respMutex.Lock()
+						existingItems[code] = append(existingItems[code], newItem)
+						respMutex.Unlock()
+					}
+					procCount.Done()
+				}()
+			}
+		}
+		// Wait here for all the lookups to complete
+		procCount.Wait()
+	}
+
+	// Serialize the response data
+	var resp ScanItemsResponse
+	resp.Items = existingItems
+	b, err := json.Marshal(resp)
+
+	// Success!
+	w.WriteHeader(200)
+	w.Write(b)
 }

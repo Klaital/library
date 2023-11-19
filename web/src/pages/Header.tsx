@@ -9,6 +9,7 @@ export default function Header() {
             </div>
             <div className="header-menu">
                 <a className="header-tile" href="/add">Add</a>
+                <a className="header-tile" href="/move">Move</a>
                 <a className="header-tile" href="/locations">By Location</a>
                 <a className="header-tile" href="/items">All Items</a>
             </div>

@@ -169,3 +169,43 @@ func (s *Storer) MoveItem(ctx context.Context, itemId int64, locationId int64) e
 	}
 	return nil
 }
+
+func (s *Storer) BulkItems(ctx context.Context, codeType string, codes []string) (map[string][]*Item, error) {
+	rows, err := s.queries.GetItems(ctx, queries.GetItemsParams{
+		CodeType: codeType,
+		Codes:    codes,
+	})
+	resp := make(map[string][]*Item, 0)
+	if err == sql.ErrNoRows {
+		return resp, nil
+	}
+	if err != nil {
+		slog.Error("Failed to query for items", "err", err)
+		return nil, fmt.Errorf("fetching bulk items: %w", err)
+	}
+
+	for _, row := range rows {
+		itemsForCode := resp[row.Code]
+		if itemsForCode == nil {
+			itemsForCode = make([]*Item, 0)
+		}
+		itemsForCode = append(itemsForCode, &Item{
+			ID:                  uint64(row.ID),
+			LocationID:          uint64(row.LocationID),
+			Code:                row.Code,
+			CodeType:            row.CodeType,
+			CodeSource:          row.CodeSource,
+			Title:               row.Title,
+			TitleTranslated:     row.TitleTranslated.String,
+			TitleTransliterated: row.TitleTransliterated.String,
+			CreatedAt:           row.CreatedAt,
+			UpdatedAt:           row.UpdatedAt,
+		})
+
+		// Update the storage map
+		resp[row.Code] = itemsForCode
+	}
+
+	// Success!
+	return resp, nil
+}

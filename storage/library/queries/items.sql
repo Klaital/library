@@ -26,3 +26,10 @@ WHERE id=?;
 
 -- name: MoveItem :exec
 UPDATE items SET location_id = ? WHERE id = ? LIMIT 1;
+
+-- name: GetItems :many
+SELECT id, location_id, code, code_type, code_source,
+       title, title_translated, title_transliterated,
+       created_at, updated_at
+FROM items
+WHERE code_type = ? AND code IN (sqlc.slice('codes'));;

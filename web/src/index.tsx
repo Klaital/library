@@ -6,6 +6,7 @@ import {createBrowserRouter, RouterProvider} from "react-router-dom";
 import LocationsPage from "./pages/LocationsPage";
 import {ItemsPage} from "./pages/ItemsPage";
 import {AddVolumePage} from "./pages/AddVolumePage";
+import {MoveVolumePage} from "./pages/MoveVolumePage";
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -27,6 +28,10 @@ const router = createBrowserRouter([
     {
         path: "/add",
         element: <AddVolumePage />
+    },
+    {
+        path: "/move",
+        element: <MoveVolumePage />
     }
 ]);
 
